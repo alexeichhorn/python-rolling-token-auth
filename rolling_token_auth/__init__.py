@@ -4,8 +4,20 @@ import time
 
 class RollingTokenManager():
 
-    def __init__(self, secret: str, interval: int, tolerance = 1):
+    class Token(object):
+        def __init__(self, token, timestamp):
+            self.token = token
+            self.timestamp = timestamp
+        
+        def get_offset(self):
+            return self.timestamp - current_timestamp()
+    
+
+
+
+    def __init__(self, secret, interval: int, tolerance = 1):
         self.secret = secret
+        if type(self.secret) == str: self.secret = self.secret.encode('utf-8')
         self.interval = interval
         self.tolerance = tolerance
         self.active_tokens = []
@@ -18,7 +30,7 @@ class RollingTokenManager():
         timestamp = self.current_timestamp() + offset
         encoded_timestamp = str(timestamp).encode('utf-8')
         hmac_digest = hmac.new(self.secret, encoded_timestamp, hashlib.sha256)
-        return Token(hmac_digest.hexdigest(), timestamp)
+        return RollingTokenManager.Token(hmac_digest.hexdigest(), timestamp)
 
     def refresh_tokens(self):
         for token in reversed(self.active_tokens):
@@ -40,13 +52,3 @@ class RollingTokenManager():
         for t in self.active_tokens:
             if t.token == token: return True
         return False
-    
-
-
-    class Token(object):
-        def __init__(self, token, timestamp):
-            self.token = token
-            self.timestamp = timestamp
-        
-        def get_offset(self):
-            return self.timestamp - current_timestamp()
