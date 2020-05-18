@@ -9,8 +9,8 @@ class RollingTokenManager():
             self.token = token
             self.timestamp = timestamp
         
-        def get_offset(self):
-            return self.timestamp - current_timestamp()
+        def get_offset(self, manager):
+            return self.timestamp - manager.current_timestamp()
     
 
 
@@ -34,11 +34,11 @@ class RollingTokenManager():
 
     def refresh_tokens(self):
         for token in reversed(self.active_tokens):
-            if abs(token.get_offset()) > self.tolerance: self.active_tokens.remove(token)
+            if abs(token.get_offset(self)) > self.tolerance: self.active_tokens.remove(token)
         
         if len(self.active_tokens) == 1+2*self.tolerance: return
 
-        active_offsets = {t.get_offset() for t in self.active_tokens}
+        active_offsets = {t.get_offset(self) for t in self.active_tokens}
 
         for offset in range(-self.tolerance, self.tolerance+1):
             if offset in active_offsets: continue
