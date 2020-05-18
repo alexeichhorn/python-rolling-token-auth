@@ -5,10 +5,10 @@ with open("README.md", 'r') as f:
 
 setuptools.setup(
     name="rolling_token_auth",
-    version="0.1",
+    version="0.1.1",
     author="Alexander Eichhorn",
     author_email="",
-    description="Rolling Token verification & generator",
+    description="Rolling Token verificator & generator",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/alexeichhorn/python-rolling-token-auth",
