@@ -23,3 +23,7 @@ This generates a token for the current timestamp. Optionally a `offset` can be d
 manager.is_valid(token)
 ```
 This checks if the given token is valid for the current timestamp. The `manager.tolerance` parameter defines how many token from the past and future are still valid (default: 1 in each direction).
+
+
+## Important
+- `RollingTokenManager` isn't thread-safe when validating tokens due to its caching behaviour. Use seperate instances for each thread.
