@@ -26,4 +26,4 @@ This checks if the given token is valid for the current timestamp. The `manager.
 
 
 ## Important
-- `RollingTokenManager` isn't thread-safe when validating tokens due to its caching behaviour. Use seperate instances for each thread.
+- `RollingTokenManager` isn't thread-safe when validating tokens due to its caching behaviour. Use separate instances for each thread.
